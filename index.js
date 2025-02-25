@@ -22,43 +22,19 @@ const mod11Div = (fig, div) => {
 
 const checkMod11 = input => {
   const totalSoFar = input
-    .reduce((acc, el, idx)=> {
-      let pos = 9-idx;
-      console.log({acc});
-      if (idx)      
-        console.log(9,'->',pos+1,'=',acc,': -> ',((acc)%11)%10);  
-      console.log('    ',pos,': ',el,'-> ',((pos*el)%11)%10); 
-      acc += pos*el;
-      console.log(9,'->',pos,': ',acc,'-> ',((acc)%11)%10);  
-      console.log({acc},'\n');       
-      return acc
-    }, 0);
-  console.log({totalSoFar});
-  console.log('totalSoFar', totalSoFar, 'totalSoFar%11', totalSoFar%11, 
-              '(11-(totalSoFar%11))%11', (11-(totalSoFar%11))%11, '', );
-  
+    .reduce((acc, el, idx)=> acc+ (9-idx)*el,  0);
   return (11-(totalSoFar%11))%11;  
 }
   
 
 if (input.length == 8) {
   // set the ninth figure
-  // to be the figure which, when we multiply it by 9 mod 11,
+  // to be the figure which, when we multiply it by position, mod 11,
   // gives us the check digit needed to make a round (ie divisible by 11) number
-  console.log('checkMod11(input)', checkMod11(input));  
-  console.log('missing amount: ', mod11Div(checkMod11(input), div));  
-
+  // NB position will always be one, so this calculation i smore complex than it needs to be!
   input[8] = mod11Div(checkMod11(input), div) %10;
-  console.log('Check digit :', input[8]);
+  console.log('Add check digit :', input[8]);
 }
-
-console.log(input.length, input);
-
-input.forEach (fig=>{
-  console.log(mod11Div(fig, div),'*',div,'mod 11 = ', fig);
-  
-})
-
 
 if (input.length == 9) {
   const startDigits = ['1', '2', '3', '5', '6', '8'].includes(input[0])
